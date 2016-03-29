@@ -64,3 +64,6 @@ var MCServerPinger = (function () {
         }
     };
 })();
+
+
+print(MCServerPinger.newPEPinger("sg.lbsg.net", 19132).fullStat().getData("hostname"));
