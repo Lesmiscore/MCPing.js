@@ -6,9 +6,9 @@
  */
 
 var MCServerPinger = (function () {
+    var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
     var io = java.io;
     var lang = java.lang;
-    var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
     var strCls = lang.Class.forName("java.lang.String");
     //CLASSLOADER AREA
     /*Base 64 string of the DEX file*/
