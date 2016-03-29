@@ -1,2 +1,3 @@
 gson-2.6.2.jar
 mcping.jar
+mcping_helper.jar
