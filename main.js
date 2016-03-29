@@ -53,17 +53,14 @@ var MCServerPinger = (function () {
         newPCPinger: function (ip, port) {
             var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 2);
             argsObjects[0] = ip;
-            argsObjects[1] = port;
+            argsObjects[1] = new java.math.BigInteger(port).intValue();
             return pcPinger.getConstructor(initClasses).newInstance(argsObjects);
         },
         newPEPinger: function (ip, port) {
             var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 2);
             argsObjects[0] = ip;
-            argsObjects[1] = port;
+            argsObjects[1] = new java.math.BigInteger(port).intValue();
             return pePinger.getConstructor(initClasses).newInstance(argsObjects);
         }
     };
 })();
-
-
-print(MCServerPinger.newPEPinger("sg.lbsg.net", 19132).fullStat().getData("hostname"));
