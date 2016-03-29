@@ -1,7 +1,7 @@
 /*
  Minecraft PC/PE Server Pinger Library
  Uses MCPing (https://github.com/nao20010128nao/MCPing)
- Do not redistribute alone!
+ Do not redistribute it alone!
  Please include this into your ModPE script.
  */
 
@@ -49,18 +49,14 @@ var MCServerPinger = (function () {
     var pcPinger = dxc.loadClass("com.nao20010128nao.MCPing.pc.PCQuery");
     var pePinger = dxc.loadClass("com.nao20010128nao.MCPing.pe.PEQuery");
 
+    var constructor = dxc.loadClass("com.nao20010128nao.MCPing.ConstructionHelper").newInstance();
+
     return {
         newPCPinger: function (ip, port) {
-            var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 2);
-            argsObjects[0] = ip;
-            argsObjects[1] = new java.math.BigInteger(port).intValue();
-            return pcPinger.getConstructor(initClasses).newInstance(argsObjects);
+            return constructor.constructPC(ip, port);
         },
         newPEPinger: function (ip, port) {
-            var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 2);
-            argsObjects[0] = ip;
-            argsObjects[1] = new java.math.BigInteger(port).intValue();
-            return pePinger.getConstructor(initClasses).newInstance(argsObjects);
+            return constructor.constructPE(ip, port);
         }
     };
 })();
