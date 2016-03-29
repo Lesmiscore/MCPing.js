@@ -1,7 +1,13 @@
+/*
+ Minecraft PC/PE Server Pinger Library
+ Uses MCPing (https://github.com/nao20010128nao/MCPing)
+ Do not redistribute alone!
+ Please include this into your ModPE script.
+ */
+
 var MCServerPinger = (function () {
     var io = java.io;
     var lang = java.lang;
-    var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
     var strCls = lang.Class.forName("java.lang.String");
     //CLASSLOADER AREA
     /*Base 64 string of the DEX file*/
@@ -21,9 +27,11 @@ var MCServerPinger = (function () {
     } else {
         dcodedir = ctx.getCodeCacheDir();/*Newer Android(5.0~)*/
     }
+
     var constClasses = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Class"), 4);
     constClasses[0] = constClasses[1] = constClasses[2] = strCls;
     constClasses[3] = lang.Class.forName("java.lang.ClassLoader");
+
     var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 4);
     argsObjects[0] = fi.toString();
     argsObjects[1] = dcodedir.toString();
@@ -32,4 +40,26 @@ var MCServerPinger = (function () {
     var dxc = lang.Class.forName("dalvik.system.DexClassLoader")
         .getConstructor(constClasses)
         .newInstance(argsObjects);
+
+    var initClasses = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Class"), 2);
+    initClasses[0] = strCls;
+    initClasses[1] = lang.Integer.TYPE;
+
+    var pcPinger = dxc.loadClass("com.nao20010128nao.MCPing.pc.PCQuery");
+    var pePinger = dxc.loadClass("com.nao20010128nao.MCPing.pe.PEQuery");
+
+    return {
+        newPCPinger: function (ip, port) {
+            var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 2);
+            argsObjects[0] = ip;
+            argsObjects[1] = port;
+            return pcPinger.getConstructor(initClasses).newInstance(argsObjects);
+        },
+        newPEPinger: function (ip, port) {
+            var argsObjects = lang.reflect.Array.newInstance(lang.Class.forName("java.lang.Object"), 2);
+            argsObjects[0] = ip;
+            argsObjects[1] = port;
+            return pePinger.getConstructor(initClasses).newInstance(argsObjects);
+        }
+    };
 })();
